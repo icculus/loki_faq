@@ -3,6 +3,7 @@
 function printHead($title)
 {
 	print("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n");
+	print("<HTML>");
 	print("<HEAD>\n");
 
 	print("<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">\n");
