@@ -4,6 +4,37 @@ include("../mysql_lib.php3");
 include("../branding.php3");
 include("./forms.php3");
 
+
+/* Propagate variable names into the namespace, if we're not using
+      register globals */
+
+if (ini_get('register_globals')!='on')
+{
+	$administrativenamearray =  array(
+		"command",
+		"really",
+		"direction",
+		"cat_id",
+		"cat_name",
+		"new_cat_name",
+		"description",
+		"introduction",
+		"private",
+		"timestamp",
+		"product_id",
+		"category",
+		"question",
+		"answer");
+
+	foreach($administrativenamearray as $name)
+	{
+		$associativearray[$name]=$_REQUEST[$name];
+	}
+	extract($associativearray);
+}
+
+
+
 /* Note:
     This will steadfastly refuse to update stuff unless "really" is set to
     "yes".
@@ -136,6 +167,7 @@ switch ($command) {
 		} else {
 			/*$cat_name=getCatName($cat_id); */
 			remCat($product,$cat_name);
+			printHead("Category $cat_name Removed");
 			print("You have successfully removed the following
 			category and its FAQs:
 			<U><I>$product: $cat_name</U></I> from the FAQ database.

@@ -3,6 +3,26 @@ include("../lib.php3");
 include("../mysql_lib.php3");
 include("../branding.php3");
 
+/* Propagate variable names into the namespace, if we're not using
+      register globals */
+
+if (ini_get('register_globals')!='on')
+{
+	$administrativenamearray =  array(
+		"really",
+		"action",
+		"cat_id",
+		"product_id",
+		"faq_id");
+
+	foreach($administrativenamearray as $name)
+	{
+		$associativearray[$name]=$_REQUEST[$name];
+	}
+	extract($associativearray);
+}
+
+
 function faqUndeleteRemove($faq_id)
 {
 	print ("<FONT SIZE=\"1\">
