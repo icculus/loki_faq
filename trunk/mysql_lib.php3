@@ -247,11 +247,11 @@ function reallyRemProd($product_id)
 	if($prod["deleted"] == "0") {
 		errorPage("Please delete this product before attempting to permanantly remove it!");
 	}
-	$SQL = "DELETE FROM products WHERE product_id='$prod_id';";
+	$SQL = "DELETE FROM faqs WHERE faq_prod='$product_id';";
 	do_sql($SQL);
-	$SQL = "DELETE FROM faqs WHERE faq_prod='$prod_id';";
+	$SQL = "DELETE FROM categories WHERE product_id='$product_id';";
 	do_sql($SQL);
-	$SQL = "DELETE FROM categories WHERE product_id='$prod_id';";
+	$SQL = "DELETE FROM products WHERE product_id='$product_id';";
 	do_sql($SQL);
 }
 

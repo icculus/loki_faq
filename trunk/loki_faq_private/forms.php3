@@ -14,7 +14,7 @@ function modifyProductForm($product_id,$new)
 		$show_product = characterMarkup($new["product"]);
 		$red_description = $prod["description"];
 		$show_description = characterMarkup($new["description"]);
-		$red_introduction = $prod["introduction"];
+		$red_introduction = insertMarkup(removeMarkup($prod["introduction"]));
 		$show_introduction = $new["introduction"];
 	} else {
 		$show_product = characterMarkup($prod["product"]);
@@ -145,4 +145,75 @@ function modifyFaqForm($faq_id,$new)
 	<INPUT TYPE=submit VALUE=Modify>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>");
 
 }
+
+function addProductForm()
+{
+	print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">
+
+		Product Reference Name: (Ex.: SMAC, SoF, SC3K)<BR>
+		<INPUT TYPE=text NAME=product SIZE=15>* Don't mess up please
+	
+		<BR><BR>
+	
+		Product Description: (Ex.: Sid Meiers Alpha Centauri)<BR>
+		<INPUT TYPE=text NAME=description SIZE=45>
+	
+		<BR><BR>
+	
+		Product FAQ Introduction:<BR>
+		<TEXTAREA name=introduction rows=15 cols=55 wrap=virtual></TEXTAREA>
+	
+		<BR><BR>
+	
+		Set the checkbox to make the product NOT visible to the public<BR>
+		<INPUT TYPE=checkbox NAME=private>
+
+		<INPUT TYPE=hidden NAME=really VALUE=yes>
+		<INPUT TYPE=hidden NAME=command VALUE=add_prod>
+
+		<BR><BR>
+
+		<INPUT TYPE=submit VALUE=Add>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>
+	
+	");
+
+}
+
+function addCatForm($product)
+{
+	print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">
+	<H1>Add a category to Product:  $product</H1><BR>
+	
+	<INPUT TYPE=text NAME=category SIZE=20>
+	<INPUT TYPE=hidden NAME=really VALUE=yes>
+	<INPUT TYPE=hidden NAME=command VALUE=add_cat>
+	<INPUT TYPE=hidden NAME=product VALUE=\"$product\">
+	<BR><BR>
+	<INPUT TYPE=submit VALUE=Add>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>
+	</FORM> ");
+
+}
+
+function addFaqForm($product,$category)
+{
+	print("<H1>Adding to product $product</H1>
+	<H2>Adding to category $category</H2>
+	<FORM ACTION=\"maintain.php3\" METHOD=\"post\">
+	<INPUT TYPE=hidden NAME=really VALUE=yes>
+	<INPUT TYPE=hidden NAME=command VALUE=add_faq>
+	<INPUT TYPE=hidden NAME=product VALUE=\"$product\">
+	<INPUT TYPE=hidden NAME=category VALUE=\"$category\">
+	Question: (Ex.: Why doesn't my Linux game work in Windows??)<BR>
+	<INPUT TYPE=text NAME=question SIZE=65>
+	
+	<BR><BR>
+	
+	FAQ Answer:<BR>
+	<TEXTAREA name=answer rows=20 cols=75 wrap=virtual></TEXTAREA>
+	<BR><BR>
+	<INPUT TYPE=submit VALUE=Add>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>");  
+
+}
+
+
 ?>

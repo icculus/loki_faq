@@ -31,34 +31,7 @@ switch ($command) {
 		}
 	} else {
 		printHead("Add a product");
-		print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">
-
-		Product Reference Name: (Ex.: SMAC, SoF, SC3K)<BR>
-		<INPUT TYPE=text NAME=product SIZE=15>* Don't mess up please
-	
-		<BR><BR>
-	
-		Product Description: (Ex.: Sid Meiers Alpha Centauri)<BR>
-		<INPUT TYPE=text NAME=description SIZE=45>
-	
-		<BR><BR>
-	
-		Product FAQ Introduction:<BR>
-		<TEXTAREA name=introduction rows=15 cols=55 wrap=virtual></TEXTAREA>
-	
-		<BR><BR>
-	
-		Set the checkbox to make the product NOT visible to the public<BR>
-		<INPUT TYPE=checkbox NAME=private>
-
-		<INPUT TYPE=hidden NAME=really VALUE=yes>
-		<INPUT TYPE=hidden NAME=command VALUE=add_prod>
-
-		<BR><BR>
-
-		<INPUT TYPE=submit VALUE=Add>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>
-	
-	");
+		addProductForm();
 		printTail();
 	}
 
@@ -148,16 +121,7 @@ switch ($command) {
 		}
 	} else {
 		printHead("Add a category");
-		print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">
-		<H1>Add a category to Product:  $product</H1><BR>
-		
-		<INPUT TYPE=text NAME=category SIZE=20>
-		<INPUT TYPE=hidden NAME=really VALUE=yes>
-		<INPUT TYPE=hidden NAME=command VALUE=add_cat>
-		<INPUT TYPE=hidden NAME=product VALUE=\"$product\">
-		<BR><BR>
-	<INPUT TYPE=submit VALUE=Add>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>
-		</FORM> ");
+		addCatForm($product);
 		printTail();
 	}
 
@@ -283,32 +247,13 @@ switch ($command) {
 	printTail();
 	} else {
 		printHead("Add a FAQ");
-		print("<H1>Adding to product $product</H1>");
-		print("<H2>Adding to category $category</H2>");
-		print("<FORM ACTION=\"maintain.php3\" METHOD=\"post\">\n");
-		print("
-		<INPUT TYPE=hidden NAME=really VALUE=yes>
-		<INPUT TYPE=hidden NAME=command VALUE=add_faq>
-		<INPUT TYPE=hidden NAME=product VALUE=\"$product\">
-		<INPUT TYPE=hidden NAME=category VALUE=\"$category\">
-		");
-		print("Question: (Ex.: Why doesn't my Linux game work in Windows??)<BR>
-	<INPUT TYPE=text NAME=question SIZE=65>
-
-	<BR><BR>
-
-	FAQ Answer:<BR>
-	<TEXTAREA name=answer rows=20 cols=75 wrap=virtual></TEXTAREA>
-		<BR><BR>
-	<INPUT TYPE=submit VALUE=Add>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset V
-ALUE=Clear>");
-
+		addFaqForm($product,$category);
+		printTail();
 	}
 
   break;
 
   case 'rem_faq':
-
 	if($really=="yes") {
 		remFAQ($faq_id);
 		printHead("FAQ removed");

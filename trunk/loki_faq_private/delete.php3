@@ -64,6 +64,7 @@ print("<H1>Here you can undelete stuff</H1>\n");
 print("<H2>This page has NO sanity checking.</H2>\n");
 print("<P>By design, if you hit a button here, <B>THAT ACTION HAPPENS</B></P>\n");
 print("<P>There is <B>NO</B> \"Are you sure?\" button.</P>\n<BR><BR>");
+print("<H3><A HREF=\"./index.php3\">Back to the index</A></H3>");
 
 $query = getDeletedProducts();
 if (@mysql_num_rows($query)) {
