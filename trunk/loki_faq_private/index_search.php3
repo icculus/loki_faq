@@ -79,13 +79,14 @@ if(!empty($q))
 				$category = getCatName($cat_id);
 				$product = getProductName($product_id);
 				print("<LI>\n");
-				if($score>0) {
-					print("ChunkyRank: $score,<BR>");
-				}
 				print("
-		Product Name: $product,<BR>
 		Category: <A HREF=\"./faq.php3?view=category&product=$product&faq_cat=$category\">$category</A><BR>
-		</LI>");
+		<I>Product Name: $product</I><BR>");
+
+				if($score>0) {
+					print("<SMALL>ChunkyRank: $score</SMALL><BR>");
+				}
+				print("</LI>");
 			}
 			print("</UL>");
 		}
@@ -103,12 +104,13 @@ if(!empty($q))
 				$product = getProductName($product_id);
 				$category = getCatName($faq_cat);
 				print("<LI>\n");
+				print("
+		Question: <A HREF=\"./faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A><BR>
+		<I>Product: $product -&gt; Category: $category</I><BR>\n");
 				if($score>0) {
-					print("ChunkyRank: $score,<BR>");
+					print("<SMALL>ChunkyRank: $score</SMALL><BR>");
 				}
-				print("Product: $product, Category: $category,<BR>
-		FAQ Question: <A HREF=\"./faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A><BR>
-		</LI>");
+				print("</LI>");
 			}
 			print("</UL>");
 		}
