@@ -74,10 +74,8 @@ function insertProduct($product_name, $description, $introduction, $private)
 	$SQL = "INSERT INTO products (product, description, introduction, private)";
 	$SQL .= " VALUES ('$product_name','$description','$introduction','$private');";
 	$query = do_sql($SQL);
-	$SQL = "SELECT product_id FROM products where product='$product_name';";
-	$query = do_sql($SQL);
-	$row = @mysql_fetch_array($query);
-	return($row["product_id"]);
+	$product_id = mysql_insert_id();
+	return($product_id);
 }
 
 function getProductId($product_name)
@@ -95,10 +93,7 @@ function insertCategory($product,$category_name)
 	$SQL .= " VALUES ('$prod_id','$category_name');";
 	$query = do_sql($SQL);
 
-	$SQL = "SELECT cat_id FROM categories WHERE cat_name='$category_name' AND product_id='$prod_id';";
-	$query = do_sql($SQL);
-	$result = @mysql_fetch_array($query);
-	$cat_id = $result["cat_id"];
+	$cat_id = mysql_insert_id();
 
 	$SQL = "UPDATE categories SET cat_order='$cat_id' where cat_id='$cat_id';";
 	$query = do_sql($SQL);
@@ -122,10 +117,7 @@ function insertFAQ($product,$category,$question,$answer,$added_by)
 	$SQL .= " VALUES ('$cat_id', '$prod_id', '$question', '$answer', '$added_by');";
 	$query = do_sql($SQL);
 	
-	$SQL = "SELECT faq_id FROM faqs WHERE faq_question='$question';";
-	$query = do_sql($SQL);
-	$result = @mysql_fetch_array($query);
-	$faq_id = $result["faq_id"];
+	$faq_id = mysql_insert_id();
 
 	$SQL = "UPDATE faqs SET faq_order='$faq_id' where faq_id='$faq_id';";
 	$query = do_sql($SQL);
@@ -350,7 +342,6 @@ function swapFAQs($faq_id1, $faq_id2)
 	$faq2 = getFaq($faq_id2);
 	$faq1_order = $faq1["faq_order"];
 	$faq2_order = $faq2["faq_order"];
-	
 	$SQL = "UPDATE faqs SET faq_order='$faq1_order' WHERE faq_id='$faq_id2';";
 	do_sql($SQL);
 
