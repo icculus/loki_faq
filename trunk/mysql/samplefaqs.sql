@@ -1,6 +1,6 @@
 -- MySQL dump 8.22
 --
--- Host: localhost    Database: faqs_test
+-- Host: localhost    Database: faqs
 ---------------------------------------------------------
 -- Server version	3.23.52-log
 
@@ -51,8 +51,8 @@ CREATE TABLE faqs (
   faq_order int(11) default NULL,
   timestamp timestamp(14) NOT NULL,
   PRIMARY KEY  (faq_id),
-  UNIQUE KEY faq_question (faq_question),
   UNIQUE KEY faq_question_2 (faq_question),
+  UNIQUE KEY faq_question (faq_question),
   FULLTEXT KEY faq_question_3 (faq_question,faq_answer)
 ) TYPE=MyISAM;
 
@@ -85,6 +85,7 @@ INSERT INTO faqs VALUES (36,19,13,'Test Question with \"plan\" to succeed','Test
 INSERT INTO faqs VALUES (37,21,13,'Where are the fish that supposedly come with my game?','There was a horrible accident.','Chunky',0,37,00000000000000);
 INSERT INTO faqs VALUES (38,14,9,'Is surrendering part of the national culture or what ?','Yes.\r\n\r\nOne of the most productive industries in France is the manufacturing of white flags, which accounts for about 20% of the brut national product.\r\n\r\nOf course the French are the first to complain about the fact that they never win... but will never actually get to actually do something about it (surrendering is just easier). Why can\'t other nations surrender a bit for a change ?\r\n\r\n','Chunky',0,38,00000000000000);
 INSERT INTO faqs VALUES (39,22,9,'What parts of France are worth visiting ?','Let me give you a quick introduction to basic French geography.\r\n\r\nThis country has essentially two different areas :\r\n\r\n- Paris\r\n- the rest of the country\r\n\r\n\r\nThe Paris general area accounts for more than 10% of the whole country\'s population. Oddly enough, it seems that all the rudest, most frenetic and gay people are living there too. They truly think they are better than the rest of their countrymen (let alone foreigners!). However this is the only place in France where things actually happen.\r\n\r\nThe rest of the country is essentially dull, outright boring, and sometimes dangerous. People can be more agreeable, and so is the weather (as opposed to Paris, especially in the South), but chances are you will get bored to death.\r\n\r\n','Chunky',0,39,00000000000000);
+INSERT INTO faqs VALUES (40,11,9,'That country smells! What can these people do to enhance their body odor ?','While it is true that most French people rink like sweaty pigs, there are a few simple methods to remedy to this common \"issue\" :\r\n\r\n- Shower more than once a week, and by all means, use soap that smells good;\r\n- Change your clothes more often than once every moon, especially after sweating;\r\n- The previous rule doubly applies to underwear ;\r\n- Wipe your ass after taking a shit ;\r\n- On the same topic, remember to remove your panties _before_ taking a shit. \r\n- Fuck, man, have you heard of that thing called deodorant ?\r\n- As a general rule, wash up when you are dirty ;\r\n- Discontinue the use of farting as an informal form of greeting ,\r\n- The sink is not an acceptable alternative to toilets ;\r\n','Chunky',0,40,20021106190237);
 
 --
 -- Table structure for table 'products'
