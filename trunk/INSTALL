@@ -9,7 +9,8 @@ nice password and a bunch of neato permissions that allow that user to
 e.g. insert and create tables etc.  don't forget the creating of tables.
 
 certainly edit the mysql_lib.php3 files to reflect the user/pass pair
-you've chosen.
+you've chosen, the database name, and the version of mysql you've got.
+[At the moment, this is only significant for searching]
 
 cat mysql/samplefaqs.sql | mysql -uuser -ppasswd dbname
 

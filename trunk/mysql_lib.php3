@@ -8,6 +8,10 @@ $pass = "faqs";
 /* $server="" Uses socket */
 $server = "";
 $db = "faqs";
+/* If you're below 3.23.23, we use a different algorithm for searching */
+$mysql_major = "3";
+$mysql_minor = "23";
+$mysql_patch = "53";
 
 /* Persistent connection */
 $connection;

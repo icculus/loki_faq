@@ -7,7 +7,6 @@ printHead("Search the FAQS");
 
 if(!empty($q))
 {
-	/* Nothing too complicated, but a helluva improvement on nothing */
 	if(!empty($product))
 	{
 		$product_id = getProductId($product);
@@ -15,17 +14,49 @@ if(!empty($q))
 		$SQL_FAQ_PRODUCT="AND faq_prod='$product_id' ";
 		print("<P><FONT CLASS=\"SearchHeadings\">Searching just in product $product</FONT></P>");
 	}
+
+	/* Nothing too complicated, but a helluva improvement on nothing */
 	$search = ereg_replace('[[:digit:]]',' ',$q);
-	$search = ereg_replace('s ',' ',$search);
-	$search = ereg_replace('s$','',$search);
-	$search = ereg_replace(' +','.*',$search);
-	$search = sql_regcase(trim($search));
-	$SQL_CAT="SELECT * FROM categories WHERE
-		cat_name RLIKE '$search'
-		$SQL_CAT_PRODUCT;";
-	$SQL_FAQ="SELECT * FROM faqs WHERE
-		(faq_question RLIKE '$search' OR faq_answer RLIKE '$search')
-		$SQL_FAQ_PRODUCT;";
+	if(! eregi("ss ",$search)) { $search = ereg_replace('s ',' ',$search); }
+	if(! eregi("ss$",$search)) { $search = ereg_replace('s$','',$search); }
+	$search = trim($search);
+
+	if( ($mysql_major>3) || ($mysql_minor>23) ||
+		($mysql_major==3 && $mysql_minor==23 && $mysql_patch>=23) &&
+		(strlen($search)>3))
+	{
+
+		$search = ereg_replace('^','*',$search);
+		$search = ereg_replace(' +','* *',$search);
+		$search = ereg_replace('$','*',$search);
+
+		$SQL_CAT = "SELECT *,MATCH(cat_name)
+				AGAINST('$search') as score
+			FROM categories WHERE
+			MATCH(cat_name) AGAINST('$search')
+			$SQL_CAT_PRODUCT;";
+
+		$SQL_FAQ = "SELECT *,MATCH(faq_question,faq_answer)
+				AGAINST('$search') as score
+			FROM faqs WHERE
+			MATCH(faq_question,faq_answer) AGAINST('$search')
+			$SQL_FAQ_PRODUCT;";
+	} else {
+		$search = ereg_replace(' +','.*',$search);
+		$search = sql_regcase($search);
+
+		$SQL_CAT="SELECT * FROM categories WHERE
+			cat_name RLIKE '$search'
+			$SQL_CAT_PRODUCT;";
+
+		$SQL_FAQ="SELECT * FROM faqs WHERE
+			(faq_question RLIKE '$search'
+			OR faq_answer RLIKE '$search')
+			$SQL_FAQ_PRODUCT;";
+	}
+
+/*	print("SQL_FAQ = <PRE>$SQL_FAQ</PRE><BR><BR>");
+	print("SQL_CAT = <PRE>$SQL_CAT</PRE><BR><BR>"); */
 
 	$cat_query = do_sql($SQL_CAT);
 	$faq_query = do_sql($SQL_FAQ);
@@ -41,14 +72,20 @@ if(!empty($q))
 			print("<UL>");
 			while($row = @mysql_fetch_array($cat_query))
 			{
+				$score = number_format($row["score"],1);
 				$cat_id = $row["cat_id"];
 				$cat_name = $row["cat_name"];
 				$product_id = $row["product_id"];
 				$category = getCatName($cat_id);
 				$product = getProductName($product_id);
+				print("<LI>\n");
+				if($score>0) {
+					print("ChunkyRank: $score,<BR>");
+				}
 				print("
-		<LI>Product Name: $product,
-		Category: <A HREF=\"./faq.php3?view=category&product=$product&faq_cat=$category\">$category</A></LI>");
+		Product Name: $product,<BR>
+		Category: <A HREF=\"./faq.php3?view=category&product=$product&faq_cat=$category\">$category</A><BR>
+		</LI>");
 			}
 			print("</UL>");
 		}
@@ -58,21 +95,28 @@ if(!empty($q))
 			print("<UL>");
 			while($row = @mysql_fetch_array($faq_query))
 			{
+				$score = number_format($row["score"],1);
 				$product_id = $row["faq_prod"];
 				$faq_id = $row["faq_id"];
 				$faq_cat = $row["faq_cat"];
 				$faq_question = $row["faq_question"];
 				$product = getProductName($product_id);
 				$category = getCatName($faq_cat);
-				print("
-		<LI>Product: $product, Category: $category,<BR>
-		FAQ Question: <A HREF=\"./faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A></LI>");
+				print("<LI>\n");
+				if($score>0) {
+					print("ChunkyRank: $score,<BR>");
+				}
+				print("Product: $product, Category: $category,<BR>
+		FAQ Question: <A HREF=\"./faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A><BR>
+		</LI>");
 			}
 			print("</UL>");
 		}
 	}
 	
 }
+
+$q = characterMarkup($q);
 print("
 	<FORM METHOD=\"post\" ACTION=\"./index_search.php3\">
 	<P>Search ALL the FAQs:</P>
