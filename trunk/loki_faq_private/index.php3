@@ -28,6 +28,14 @@ print("<LI><A HREF=\"delete.php3\">Delete & Undelete Screen</A></LI>\n");
 
 print("</UL>");
 
+print("
+	<FORM METHOD=\"post\" ACTION=\"./index_search.php3\">
+	<P>Alternatively, search all the FAQs:</P>
+	<INPUT TYPE=\"text\" SIZE=\"20\" NAME=\"q\" VALUE=\"$q\"> &nbsp;
+	<INPUT TYPE=\"submit\" VALUE=\"Find!\">
+		</FORM>
+	");
+
 printTail()
 	
 ?>

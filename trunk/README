@@ -1,3 +1,18 @@
+[2002-11-06]
+
+For reference, YES. faq.php3 is the same in both the public and private
+dirs. So is index_search.php3.
+
+The difference in functionality is that the links to actually modify the
+FAQs, add them, whatever, are generated with a function "catModifyRemove",
+which is deliberately stubbed in the public one.
+
+The actual php for maintenance also doesn't exist in the public one.
+
+Index_search.php3 really is the same. It search the FAQs, and returns
+links. It's up to faq.php3 to either provide an admin interface, or not.
+
+
 [2002-10-31]
 
 What you're looking at is a complete re-write of the loki_faq engine.
