@@ -1,6 +1,24 @@
 <?
 
-/* Global Variables */
+/* Propagate variable names into the namespace, if we're not using
+      register globals */
+
+if (ini_get('register_globals')!='on')
+{
+	$namearray =  array(
+		"product",
+		"faq_id",
+		"product_id",
+		"view",
+		"faq_cat",
+		"q");
+
+	foreach($namearray as $name)
+	{
+		$associativearray[$name]=$_REQUEST[$name];
+	}
+	extract($associativearray);
+}
 
 
 function removeMarkup($input_text)
