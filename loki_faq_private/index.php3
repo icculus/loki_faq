@@ -10,7 +10,6 @@ function productModify($product)
 	print ("<FONT SIZE=\"1\">
 	[
 	<A HREF=\"./maintain.php3?command=mod_prod&product=$product\">Modify</A>
-	<!-- | <A HREF=\"./maintain.php3?command=add_prod&product=$product\">Add</A>-->
 	| <A HREF=\"./maintain.php3?command=rem_prod&product=$product\">Remove</A>
 	]
 		</FONT>");
@@ -34,6 +33,8 @@ while($product_list = @mysql_fetch_array($query))
 }
 
 print("<LI><A HREF=\"maintain.php3?command=add_prod\">Add a Product</A></LI>\n");
+
+print("<LI><A HREF=\"delete.php3\">Delete & Undelete Screen</A></LI>\n");
 
 print("</UL>");
 

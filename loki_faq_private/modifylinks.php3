@@ -6,7 +6,6 @@ function catModifyRemove($product,$cat_name)
 	print ("<FONT SIZE=\"1\">
 	[
 	<A HREF=\"./maintain.php3?command=mod_cat&cat_name=$cat_name&product=$product\">Modify</A>
-	<!-- | <A HREF=\"./maintain.php3?command=add_cat&cat_name=$cat_name&product=$product\">Add</A> -->
 	| <A HREF=\"./maintain.php3?command=rem_cat&cat_name=$cat_name&product=$product\">Remove</A>
 	]
 	&nbsp;&nbsp;&nbsp;
@@ -23,7 +22,6 @@ function faqModifyRemove($faq_id,$product,$cat_name)
 	print ("<FONT SIZE=\"1\">
 	[
 	<A HREF=\"./maintain.php3?command=mod_faq&faq_id=$faq_id&product=$product\">Modify</A>
-	<!-- | <A HREF=\"./maintain.php3?command=add_faq&product=$product&category=$cat_name\">Add</A> -->
 	| <A HREF=\"./maintain.php3?command=rem_faq&faq_id=$faq_id&product=$product\">Remove</A>
 	]
 	&nbsp;&nbsp;&nbsp;

@@ -16,9 +16,8 @@ switch ($command) {
 		if(empty($product) || empty($description) || empty($introduction) || empty($version)) {
 			errorPage("Please fill in all the fields");
 		} else {
-			$timestamp = date("YmdHis");
 			$private=empty($private)?0:1;
-			insertProduct($product, $description, $introduction, $version, $timestamp, $private);
+			insertProduct($product, $description, $introduction, $version, $private);
 			printHead("Product $product added");
 			print("You have successfully added a product to the FAQ database. Good for you!
 	<BR><BR>
