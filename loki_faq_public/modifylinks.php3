@@ -2,27 +2,37 @@
 
 function productModifyRemove($product)
 {
-	/* noop-ed */
+	/* No-opped */
 }
 
 function catModifyRemove($product,$cat_name)
 {
-	/* noop-ed */
+	/* No-opped */
+}
+
+function catMoveUpDown($product,$cat_name)
+{
+	/* No-opped */
 }
 
 function faqModifyRemove($faq_id,$product,$cat_name)
 {
-	/* noop-ed */
+	/* No-opped */
+}
+
+function faqMoveUpDown($faq_id,$product,$cat_name)
+{
+	/* No-opped */
 }
 
 function catAdd($product)
 {
-	/* noop-ed */
+	/* No-opped */
 }
 
 function faqAdd($product,$cat_name)
 {
-	/* noop-ed */
+	/* No-opped */
 }
 
 ?>

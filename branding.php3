@@ -52,6 +52,7 @@ function printProductHead($product)
 
 function printFAQ($product,$question,$answer,$faq_id)
 {
+	$answer = trim($answer);
 	$answer = insertMarkup(removeMarkup($answer));
 	print("<FONT CLASS=\"QA\">Question</FONT>:<BR>\n");
 	print("<A NAME=faq$faq_id>\n");
