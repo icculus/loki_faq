@@ -1,47 +1,42 @@
 <?
-include("lib.php3");
+include("../lib.php3");
+include("../mysql_lib.php3");
+include("../branding.php3");
+
+printHead("Product Index");
+
+function productModify($product)
+{
+	print ("<FONT SIZE=\"1\">
+	[
+	<A HREF=\"./maintain.php3?command=mod_prod&product=$product\">Modify</A>
+	<!-- | <A HREF=\"./maintain.php3?command=add_prod&product=$product\">Add</A>-->
+	| <A HREF=\"./maintain.php3?command=rem_prod&product=$product\">Remove</A>
+	]
+		</FONT>");
+}
+
 
 print("
-<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">
-<HTML>
-<HEAD>
-	<!-- Copyright (C) 1999 Loki Entertainment Software -->
-	<TITLE>Loki | FAQs</TITLE>
-</HEAD>
+<H1>Products that're publicly avaliable in the current database:</H1>
+<UL>
+");
 
+$query = getProducts();
 
-	<BODY BGCOLOR=\"#ffffff\">
-	<!-- BEGIN MAIN BODY -->
+while($product_list = @mysql_fetch_array($query))
+{
+	$product = insertMarkup(removeMarkup($product_list["product"]));
+	$description = insertMarkup(removeMarkup($product_list["description"]));
+	print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a>");
+	productModify($product_list["product"]);
+	print("</LI>\n");
+}
 
-	<P><FONT FACE=\"Arial, Helvetica, sans-serif\" COLOR=\"#000000\" SIZE=\"-1\" CLASS=\"subhead\">Loki FAQ List
-	</FONT></P>
-	<P><FONT FACE=\"Arial, Helvetica, sans-serif\" COLOR=\"#000000\" SIZE=\"-1\" CLASS=\"normal\">Welcome to A FAQ list! Here, you'll find answers to our most commonly asked questions. 
-	</FONT></P>
+print("<LI><A HREF=\"maintain.php3?command=add_prod\">Add a Product</A></LI>\n");
 
-	<!-- END MAIN BODY -->
+print("</UL>");
 
-	<!-- BEGIN PRODUCT LIST -->
-	<UL>");
-
-	$query = do_sql("SELECT product, description FROM products ORDER BY product");
-
-	while($product_list = @mysql_fetch_array($query))
-	{
-		list($product, $description) = $product_list;
-		print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-	}
-
-	/* IF ADMIN... */
-	print("<LI><a href=\"maintain.php3?command=add_prod\"><FONT COLOR=\"black\"> Add Product</FONT></A></LI>");
-
-	print("
+printTail()
 	
-	</UL>
-	<!-- END PRODUCT LIST -->
-
-
-</BODY>
-</HTML>");
-
-
 ?>
