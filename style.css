@@ -12,6 +12,14 @@ A:link {
 	color: #53a119;
 }
 
+A:visited:hover {
+	color: #2233c6;
+}
+
+A:hover {
+	color: #537159;
+}
+
 /* Used for the category name in the listing */
 FONT.CategoryName {
 	font-size: 170%;

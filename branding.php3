@@ -25,9 +25,9 @@ function printLinkHead($product)
 {
 	print("
 
-	<P><IMG SRC=\"../images/back.gif\">&nbsp;&nbsp;<A HREF=\"faq.php3?view=index&product=$product\">$product FAQ Index</A> &nbsp;&nbsp;|&nbsp;&nbsp;
-	<IMG SRC=\"../images/print.gif\"> &nbsp;&nbsp;<A HREF=\"faq.php3?view=all&product=$product\">$product Full (Printer-Friendly) view</A> &nbsp;&nbsp;|&nbsp;&nbsp; 
-	<IMG SRC=\"../images/home.gif\"> &nbsp;&nbsp;<A HREF=\"index.php3\">FAQ Home</A> ");
+	<P><IMG SRC=\"../images/back.gif\" ALT=\"\"> <A HREF=\"faq.php3?view=index&product=$product\">$product FAQ Index</A>&nbsp;|&nbsp;
+	<IMG SRC=\"../images/print.gif\" ALT=\"\"> <A HREF=\"faq.php3?view=all&product=$product\">$product Full (Printer-Friendly) view</A>&nbsp;|&nbsp;
+	<IMG SRC=\"../images/home.gif\" ALT=\"\"> <A HREF=\"index.php3\">FAQ Home</A> ");
 }
 
 function printProductHead($product)
