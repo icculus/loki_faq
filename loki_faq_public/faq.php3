@@ -88,7 +88,9 @@ switch ($view) {
 	printHead("FAQ: $product");
 	printLinkHead($product);
 	printProductHead($product);
-	print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></FONT><BR><BR>\n");
+	print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></FONT>\n");
+	catModifyRemove($product,$cat_name);
+	print("<BR><BR>");
 	printFAQ($product,$faq_question,$faq_answer,$faq_id);
 	print("<BR>");
 	faqModifyRemove($faq_id,$product,$faq_cat);
@@ -109,12 +111,11 @@ switch ($view) {
 	printHead("Category: $product");
 	printLinkHead($product);
 	printProductHead($product);
-	catAdd($product);
-	print("<BR><BR>");
 
 	$catRow = getIndexByCat($product, $faq_cat);
 
-	print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></FONT><BR>\n");
+	print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></FONT>\n");
+	catModifyRemove($product,$cat_name);
 	print("<OL>");
 
 	/* Use to list all questions */
@@ -127,7 +128,7 @@ switch ($view) {
 		$faq_answer = $answer["faq_answer"];
 	
 
-		print("<LI><FONT CLASS=\"FQAQuestion\"><A HREF=\"faq.php3?view=faq&product=$product&faq_notes=$faq_notes&faq_id=$faq_id\">$faq_question</A></FONT><BR>\n");
+		print("<LI><FONT CLASS=\"FQAQuestion\"><A HREF=\"faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A></FONT>\n");
 		faqModifyRemove($faq_id,$product,$faq_cat);
 		print("&nbsp;&nbsp;");
 		faqMoveUpDown($faq_id, $product,$cat_name);

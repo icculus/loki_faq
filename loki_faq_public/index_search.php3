@@ -1,107 +1,87 @@
 <?
 include("../lib.php3");
+include("../mysql_lib.php3");
 include("../branding.php3");
 
 printHead("Search the FAQS");
 
-print("
-		<FORM METHOD=\"post\" ACTION=\"http://www.lokigames.com/cgi-bin/htsearch\">
-	
-<P><FONT FACE=\"Arial, Helvetica, sans-serif\" COLOR=\"#CCCCCC\" SIZE=\"-1\" CLASS=\"normal\">
-	Search the FAQs:</FONT></P>
-
-			<INPUT TYPE=\"hidden\" NAME=\"config\" VALUE=\"htdig\">
-			<INPUT TYPE=\"hidden\" NAME=\"format\" VALUE=\"FAQ\">
-			<INPUT TYPE=\"hidden\" NAME=\"restrict\" VALUE=\"faqs.lokigames.com/\">
-			<INPUT TYPE=\"hidden\" NAME=\"exclude\" VALUE=\"\">
-
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=\"text\" SIZE=\"20\" NAME=\"words\" VALUE=\"\"> &nbsp;
-			<INPUT TYPE=\"image\" VALUE=\"Go\" SRC=\"http://www.lokigames.com/home/_img/headlines/go.gif\" BORDER=0>
-		</FORM>	
-
-
-
-	<!-- BEGIN PRODUCT LIST -->
-	");
-
-	/*
-	$query = do_sql("SELECT product, description FROM products WHERE private = '0' ORDER BY product");
-
-	while($product_list = @mysql_fetch_array($query))
+if(!empty($q))
+{
+	/* Nothing too complicated, but a helluva improvement on nothing */
+	if(!empty($product))
 	{
-		list($product, $description) = $product_list;
-		print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
+		$product_id = getProductId($product);
+		$SQL_CAT_PRODUCT="AND product_id='$product_id' ";
+		$SQL_FAQ_PRODUCT="AND faq_prod='$product_id' ";
+		print("<P><FONT CLASS=\"SearchHeadings\">Searching just in product $product</FONT></P>");
 	}
-	*/
+	$search = ereg_replace('[[:digit:]]',' ',$q);
+	$search = ereg_replace('s ',' ',$search);
+	$search = ereg_replace('s$','',$search);
+	$search = ereg_replace(' +','.*',$search);
+	$search = sql_regcase(trim($search));
+	$SQL_CAT="SELECT * FROM categories WHERE
+		cat_name RLIKE '$search'
+		$SQL_CAT_PRODUCT;";
+	$SQL_FAQ="SELECT * FROM faqs WHERE
+		(faq_question RLIKE '$search' OR faq_answer RLIKE '$search')
+		$SQL_FAQ_PRODUCT;";
 
-
-	$query1 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'general' ORDER BY product");
-	$num_rows = @mysql_num_rows($query1);
-
-	print("General FAQs:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-        while($product_list = @mysql_fetch_array($query1))
-        {
-              	list($product, $description) = $product_list;
-        	print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-        print("</UL>");
-
-	$query2 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'tools' ORDER BY product");
-	$num_rows = @mysql_num_rows($query2);
-
-	print("Tools and Utilities:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-        while($product_list = @mysql_fetch_array($query2))
-        {
-                list($product, $description) = $product_list;
-                print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-	print("</UL>");
-
-	$query3 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'product' ORDER BY product");
-	$num_rows = @mysql_num_rows($query3);
-
-	print("Products:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-	while($product_list = @mysql_fetch_array($query3))
-        {
-                list($product, $description) = $product_list;
-                print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-	print("</UL>");
-
-	$query4 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'open-source' ORDER BY product");
-	$num_rows = @mysql_num_rows($query4);
-
-	print("Open Source Projects:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-        while($product_list = @mysql_fetch_array($query4))
-        {
-                list($product, $description) = $product_list;
-                print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-	print("</UL>");
+	$cat_query = do_sql($SQL_CAT);
+	$faq_query = do_sql($SQL_FAQ);
+	$cat_numrows = @mysql_num_rows($cat_query);
+	$faq_numrows = @mysql_num_rows($faq_query);
+	if($cat_numrows < 1 && $faq_numrows < 1)
+	{
+		print("<P><FONT CLASS=\"SearchHeadings\">No results found for \"$q\"</FONT></P>");
+	} else {
+		if($cat_numrows > 0)
+		{
+			print("<P><FONT CLASS=\"SearchHeadings\">Categories found matching query:</FONT></B>\n");
+			print("<UL>");
+			while($row = @mysql_fetch_array($cat_query))
+			{
+				$cat_id = $row["cat_id"];
+				$cat_name = $row["cat_name"];
+				$product_id = $row["product_id"];
+				$category = getCatName($cat_id);
+				$product = getProductName($product_id);
+				print("
+		<LI>Product Name: $product,
+		Category: <A HREF=\"./faq.php3?view=category&product=$product&faq_cat=$category\">$category</A></LI>");
+			}
+			print("</UL>");
+		}
+		if($faq_numrows > 0)
+		{
+			print("<P><FONT CLASS=\"SearchHeadings\">FAQs found matching query:</FONT></P>");
+			print("<UL>");
+			while($row = @mysql_fetch_array($faq_query))
+			{
+				$product_id = $row["faq_prod"];
+				$faq_id = $row["faq_id"];
+				$faq_cat = $row["faq_cat"];
+				$faq_question = $row["faq_question"];
+				$product = getProductName($product_id);
+				$category = getCatName($faq_cat);
+				print("
+		<LI>Product: $product, Category: $category,<BR>
+		FAQ Question: <A HREF=\"./faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A></LI>");
+			}
+			print("</UL>");
+		}
+	}
+	
+}
+print("
+	<FORM METHOD=\"post\" ACTION=\"./index_search.php3\">
+	<P>Search ALL the FAQs:</P>
+	<INPUT TYPE=\"text\" SIZE=\"20\" NAME=\"q\" VALUE=\"$q\"> &nbsp;
+	<INPUT TYPE=\"submit\" VALUE=\"Find!\">
+		</FORM>	
+	<P>To search through just one product, do the search from within
+	that product</P>
+	");
 
 	printTail();
 
