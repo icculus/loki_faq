@@ -57,3 +57,9 @@ P.ProductDescription {
 P.ProductIntroduction {
 	font-color: black;
 }
+
+/* For headings in the search like "FAQs Found:" */
+FONT.SearchHeadings {
+	font-size: 120%;
+	font-weight: bold;
+}

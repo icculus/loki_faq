@@ -128,7 +128,7 @@ switch ($view) {
 		$faq_answer = $answer["faq_answer"];
 	
 
-		print("<LI><FONT CLASS=\"FQAQuestion\"><A HREF=\"faq.php3?view=faq&product=$product&faq_notes=$faq_notes&faq_id=$faq_id\">$faq_question</A></FONT>\n");
+		print("<LI><FONT CLASS=\"FQAQuestion\"><A HREF=\"faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A></FONT>\n");
 		faqModifyRemove($faq_id,$product,$faq_cat);
 		print("&nbsp;&nbsp;");
 		faqMoveUpDown($faq_id, $product,$cat_name);

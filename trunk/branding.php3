@@ -25,10 +25,14 @@ function printTail()
 function printLinkHead($product)
 {
 	print("
-
-	<P><IMG SRC=\"../images/back.gif\" ALT=\"\"> <A HREF=\"faq.php3?view=index&product=$product\">$product FAQ Index</A>&nbsp;|&nbsp;
+	<TABLE BORDER=0>
+	<TR>
+	<TD VALIGN=\"top\">
+	<IMG SRC=\"../images/back.gif\" ALT=\"\"> <A HREF=\"faq.php3?view=index&product=$product\">$product FAQ Index</A>&nbsp;|&nbsp;
 	<IMG SRC=\"../images/print.gif\" ALT=\"\"> <A HREF=\"faq.php3?view=all&product=$product\">$product Full (Printer-Friendly) view</A>&nbsp;|&nbsp;
-	<IMG SRC=\"../images/home.gif\" ALT=\"\"> <A HREF=\"index.php3\">FAQ Home</A> ");
+	<IMG SRC=\"../images/home.gif\" ALT=\"\"> <A HREF=\"index.php3\">FAQ Home</A>&nbsp;|&nbsp;Search </TD>
+
+	<TD><FORM METHOD=\"post\" ACTION=\"./index_search.php3\"><INPUT TYPE=\"text\" SIZE=\"20\" NAME=\"q\" VALUE=\"$q\"><INPUT TYPE=\"hidden\" NAME=\"product\" VALUE=\"$product\"></FORM></TD></TR></TABLE>");
 }
 
 function printProductHead($product)
