@@ -1,6 +1,6 @@
 -- MySQL dump 8.22
 --
--- Host: localhost    Database: faqs_newschema
+-- Host: localhost    Database: faqs_test
 ---------------------------------------------------------
 -- Server version	3.23.52-log
 
@@ -15,7 +15,8 @@ CREATE TABLE categories (
   deleted tinyint(4) default '0',
   cat_order int(11) default NULL,
   timestamp timestamp(14) NOT NULL,
-  PRIMARY KEY  (cat_id)
+  PRIMARY KEY  (cat_id),
+  FULLTEXT KEY cat_name (cat_name)
 ) TYPE=MyISAM;
 
 --
@@ -50,8 +51,9 @@ CREATE TABLE faqs (
   faq_order int(11) default NULL,
   timestamp timestamp(14) NOT NULL,
   PRIMARY KEY  (faq_id),
+  UNIQUE KEY faq_question (faq_question),
   UNIQUE KEY faq_question_2 (faq_question),
-  UNIQUE KEY faq_question (faq_question)
+  FULLTEXT KEY faq_question_3 (faq_question,faq_answer)
 ) TYPE=MyISAM;
 
 --
