@@ -21,10 +21,14 @@ while($product_list = @mysql_fetch_array($query))
 	productModifyRemove($product_list["product"]);
 	print("</LI>\n");
 }
+print("</UL><UL>");
 
 print("<LI><A HREF=\"maintain.php3?command=add_prod\">Add a Product</A></LI>\n");
 
 print("<LI><A HREF=\"delete.php3\">Delete & Undelete Screen</A></LI>\n");
+
+
+print("<LI><A HREF=\"userguide.php3\">Administrative User Guide</A></LI>\n");
 
 print("</UL>");
 

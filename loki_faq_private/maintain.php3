@@ -309,8 +309,8 @@ switch ($command) {
 		$answer = insertMarkup(removeMarkup($answer));
 		print("<H1>The FAQ NOW reads:</H1>
 			<TABLE BORDER=\"0\">
-			<TR><TD>Question:</TD><TD>$question</TD></TR>
-			<TR><TD>Answer:</TD><TD>$answer</TD></TR>
+			<TR><TD><B>Question:</B></TD><TD>$question</TD></TR>
+			<TR><TD VALIGN=\"top\"><B>Answer:</B></TD><TD>$answer</TD></TR>
 			</TABLE>
 	<A HREF=\"faq.php3?view=index&product=$product\">
 		$product Index</A><BR>");
