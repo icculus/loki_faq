@@ -1,99 +1,42 @@
 <?
-include("lib.php3");
+include("../lib.php3");
+include("../mysql_lib.php3");
+include("../branding.php3");
+
+printHead("Product Index");
+
+function productModify($product)
+{
+	print ("<FONT SIZE=\"1\">
+	[
+	<A HREF=\"./maintain.php3?command=mod_prod&product=$product\">Modify</A>
+	<!-- | <A HREF=\"./maintain.php3?command=add_prod&product=$product\">Add</A>-->
+	| <A HREF=\"./maintain.php3?command=rem_prod&product=$product\">Remove</A>
+	]
+		</FONT>");
+}
+
 
 print("
+<H1>Products that're publicly avaliable in the current database:</H1>
+<UL>
+");
 
-<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">
-<HTML>
-<BODY>
+$query = getProducts();
 
-	");
+while($product_list = @mysql_fetch_array($query))
+{
+	$product = insertMarkup(removeMarkup($product_list["product"]));
+	$description = insertMarkup(removeMarkup($product_list["description"]));
+	print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a>");
+	productModify($product_list["product"]);
+	print("</LI>\n");
+}
 
-	/*
-	$query = do_sql("SELECT product, description FROM products WHERE private = '0' ORDER BY product");
+print("<LI><A HREF=\"maintain.php3?command=add_prod\">Add a Product</A></LI>\n");
 
-	while($product_list = @mysql_fetch_array($query))
-	{
-		list($product, $description) = $product_list;
-		print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-	}
-	*/
+print("</UL>");
 
-
-	$query1 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'general' ORDER BY product");
-	$num_rows = @mysql_num_rows($query1);
-
-	print("General FAQs:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-        while($product_list = @mysql_fetch_array($query1))
-        {
-              	list($product, $description) = $product_list;
-        	print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-        print("</UL>");
-
-	$query2 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'tools' ORDER BY product");
-	$num_rows = @mysql_num_rows($query2);
-
-	print("Tools and Utilities:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-        while($product_list = @mysql_fetch_array($query2))
-        {
-                list($product, $description) = $product_list;
-                print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-	print("</UL>");
-
-	$query3 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'product' ORDER BY product");
-	$num_rows = @mysql_num_rows($query3);
-
-	print("Products:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-	while($product_list = @mysql_fetch_array($query3))
-        {
-                list($product, $description) = $product_list;
-                print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-	print("</UL>");
-
-	$query4 = do_sql("SELECT product, description FROM products WHERE private = '0' AND category = 'open-source' ORDER BY product");
-	$num_rows = @mysql_num_rows($query4);
-
-	print("Open Source Projects:<BR><BR><UL>");
-
-	if ($num_rows < 1)
-        {
-        	print("There are currently no entries for this category.");
-        }
-
-        while($product_list = @mysql_fetch_array($query4))
-        {
-                list($product, $description) = $product_list;
-                print("<LI><a href=\"faq.php3?view=index&product=$product\">$description</a></LI>\n");
-        }
-	print("</UL>");
-
-	print("<BR><BR>");
-
-	print("
+printTail()
 	
-</BODY>
-</HTML>");
-
-
 ?>

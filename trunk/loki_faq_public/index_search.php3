@@ -1,10 +1,10 @@
 <?
-include("lib.php3");
+include("../lib.php3");
+include("../branding.php3");
+
+printHead("Search the FAQS");
 
 print("
-<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">
-<HTML>
-<BODY>
 		<FORM METHOD=\"post\" ACTION=\"http://www.lokigames.com/cgi-bin/htsearch\">
 	
 <P><FONT FACE=\"Arial, Helvetica, sans-serif\" COLOR=\"#CCCCCC\" SIZE=\"-1\" CLASS=\"normal\">
@@ -103,12 +103,6 @@ print("
         }
 	print("</UL>");
 
-	print("<BR><BR>");
-
-	print("
-	
-</BODY>
-</HTML>");
-
+	printTail();
 
 ?>
