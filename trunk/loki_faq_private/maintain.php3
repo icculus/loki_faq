@@ -18,14 +18,14 @@ switch ($command) {
 			errorPage("Please fill in all the fields");
 		} else {
 			$private=empty($private)?0:1;
-			insertProduct($product, $description, $introduction, $private);
+			$product_id = insertProduct($product, $description, $introduction, $private);
 			printHead("Product $product added");
 			print("You have successfully added a product to the FAQ database. Good for you!
 
 	You may now go ahead and add FAQs to the FAQ database for: $description
 	<BR><BR>
 	
-	<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A>
+	<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A><BR>
 	<A HREF=\"index.php3\">FAQ Index</A>");
 	printTail();
 		}
@@ -218,7 +218,7 @@ switch ($command) {
   case 'add_faq':
 
 	if($really=="yes") {
-		insertFAQ($product,$category,$question,$answer,"Chunky");
+		$faq_id = insertFAQ($product,$category,$question,$answer,"Chunky");
 		printHead("FAQ Inserted");
 		print("You have successfully added a FAQ to the database. Good for you!
 	<BR><BR>
@@ -235,12 +235,12 @@ switch ($command) {
 	FAQ Answer:<BR>
 	$answer
 	<BR><BR>
-	<BR><BR>
 
 	*You may now go ahead and view this newly added FAQ for: $product
 	<BR><BR>
 	<BR><BR>
 
+<A HREF=\"./maintain.php3?command=mod_faq&faq_id=$faq_id&product=$product\">I made a mistake. Can I correct it?</A><BR><BR>
 	<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A>
 	<BR>
 	<A HREF=\"index.php3\">FAQ Index</A>");
@@ -257,7 +257,7 @@ switch ($command) {
 	if($really=="yes") {
 		remFAQ($faq_id);
 		printHead("FAQ removed");
-		print("<H1>FAQ gone<H1>
+		print("<H1>FAQ gone</H1>
 	<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A><BR>
 		<A HREF=\"index.php3\">Back to the index</A>");
 		printTail();
@@ -312,6 +312,7 @@ switch ($command) {
 			<TR><TD><B>Question:</B></TD><TD>$question</TD></TR>
 			<TR><TD VALIGN=\"top\"><B>Answer:</B></TD><TD>$answer</TD></TR>
 			</TABLE>
+<A HREF=\"./maintain.php3?command=mod_faq&faq_id=$faq_id&product=$product\">I made a mistake. Can I correct it?</A><BR><BR>
 	<A HREF=\"faq.php3?view=index&product=$product\">
 		$product Index</A><BR>");
 		}

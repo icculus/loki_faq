@@ -74,6 +74,10 @@ function insertProduct($product_name, $description, $introduction, $private)
 	$SQL = "INSERT INTO products (product, description, introduction, private)";
 	$SQL .= " VALUES ('$product_name','$description','$introduction','$private');";
 	$query = do_sql($SQL);
+	$SQL = "SELECT product_id FROM products where product='$product_name';";
+	$query = do_sql($SQL);
+	$row = @mysql_fetch_array($query);
+	return($row["product_id"]);
 }
 
 function getProductId($product_name)
@@ -125,7 +129,7 @@ function insertFAQ($product,$category,$question,$answer,$added_by)
 
 	$SQL = "UPDATE faqs SET faq_order='$faq_id' where faq_id='$faq_id';";
 	$query = do_sql($SQL);
-	
+	return($faq_id);
 }
 
 function getCatById($cat_id)
