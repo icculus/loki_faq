@@ -1,0 +1,22 @@
+
+the usual stuff with a linux/apache/mysql/php app
+
+create a database called faqs (or a different name and edit the lib.php3 files).
+
+if you're smart, you'll create a separate user for this database with a nice password and a bunch of neato permissions that allow that user to e.g. insert and create tables etc.  don't forget the creating of tables.
+
+certainly edit the lib.php3 files to reflect the user/pass pair you've chosen.
+
+mysql -u user -p faqs < mysql/samplefaqs.sql  
+
+stick the loki_faq_public somewhere you want the publish the faqs, the loki_faq_private somewhere password protected or something.
+
+searching should be broken due to its dependence on a working htdit system
+
+notes:
+
+it's a bit wierd, how the schema was designed here... wouldn't call it first normal form or whatever.
+
+bugs:
+
+lots of them
