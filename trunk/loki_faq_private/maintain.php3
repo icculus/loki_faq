@@ -22,6 +22,7 @@ if (ini_get('register_globals')!='on')
 		"private",
 		"timestamp",
 		"product_id",
+		"new_cat_id",
 		"category",
 		"question",
 		"answer");
