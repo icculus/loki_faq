@@ -1,7 +1,26 @@
-This is a system designed for managing and presenting on the web a group of Frequently Asked Questions or FAQs.  Especially if the FAQs are about software products.
+[2002-10-31]
 
-It was implemented at Loki Software, Inc. initially by Raf Barrero, and lived as faqs.lokigames.com.
+What you're looking at is a complete re-write of the loki_faq engine.
 
-It is being released publicly for the usual reasons and specifically to foster ad-hoc support for the Loki products from the community of users and enthusiasts.
+It's had many and varying enhancements, including the fact it's now a
+damn site easier to use, has persistent database connections [yes, Ryan,
+they're carefully controlled], is far more secure [the user only needs
+SELECT, INSERT, and UPDATE privs; not CREATE or DROP], the libraries
+are unified, the presentation and logic have mostly been separated,
+and a whole list of other things.
 
-01/24/2002
+Gary (-;
+
+
+[2002-24-01]
+
+This is a system designed for managing and presenting on the web a group
+of Frequently Asked Questions or FAQs.  Especially if the FAQs are about
+software products.
+
+It was implemented at Loki Software, Inc. initially by Raf Barrero,
+and lived as faqs.lokigames.com.
+
+It is being released publicly for the usual reasons and specifically to
+foster ad-hoc support for the Loki products from the community of users
+and enthusiasts.
