@@ -36,7 +36,7 @@ function modifyProductForm($product_id,$new)
 	<BR><BR>
 
 	Product FAQ Introduction:<BR>
-	<FONT COLOR=\"red\">$red_introduction</FONT><BR>
+	<FONT COLOR=\"red\"><PRE>$red_introduction</PRE></FONT><BR>
 	<TEXTAREA NAME=introduction ROWS=15 COLS=55 WRAP=virtual>$show_introduction</TEXTAREA>
 
 	<BR><BR>
@@ -139,7 +139,7 @@ function modifyFaqForm($faq_id,$new)
 	<BR><BR>
 
 	FAQ Answer:<BR>
-		<FONT COLOR=\"red\">$red_answer</FONT><BR>
+		<FONT COLOR=\"red\"><PRE>$red_answer</PRE></FONT><BR>
 	<TEXTAREA name=answer rows=20 cols=75 wrap=virtual>$show_answer</TEXTAREA>
 	<BR><BR>
 	<INPUT TYPE=submit VALUE=Modify>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>");

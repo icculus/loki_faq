@@ -16,7 +16,8 @@ function insertMarkup($input_text)
 	$input_text = ereg_replace("\r\n","<BR>",$input_text);
 	$input_text = ereg_replace("\r","<BR>",$input_text);
 	$input_text = ereg_replace("\n","<BR>",$input_text);
-	$input_text = preg_replace("/\[CODE\](.*)\[\/CODE\]/","<PRE>$1</PRE>\n",$input_text);
+	$input_text = preg_replace("/\[CODE\](.*)\[\/CODE\]/msi","<PRE>$1</PRE>\n",$input_text);
+	$input_text = preg_replace("/\[LINK=(.*)\](.*)\[\/LINK\]/","<A HREF=\"$1\">$2</A>\n",$input_text);
 	return($input_text);
 }
 
