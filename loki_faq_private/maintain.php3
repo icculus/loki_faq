@@ -2,6 +2,7 @@
 include("../lib.php3");
 include("../mysql_lib.php3");
 include("../branding.php3");
+include("./forms.php3");
 
 /* Note:
     This will steadfastly refuse to update stuff unless "really" is set to
@@ -13,43 +14,15 @@ switch ($command) {
   case 'add_prod':
 
 	if ($really=="yes") {
-		if(empty($product) || empty($description) || empty($introduction) || empty($version)) {
+		if(empty($product) || empty($description) || empty($introduction)) {
 			errorPage("Please fill in all the fields");
 		} else {
 			$private=empty($private)?0:1;
-			insertProduct($product, $description, $introduction, $version, $private);
+			insertProduct($product, $description, $introduction, $private);
 			printHead("Product $product added");
 			print("You have successfully added a product to the FAQ database. Good for you!
-	<BR><BR>
 
-	Product Reference Name: $product
-	<BR><BR>
-
-	Product Description: $description
-	<BR><BR>
-
-	Product FAQ Introduction:<BR>
-	$introduction
-	<BR><BR>
-
-	Product Version: $version
-	<BR><BR>
-
-	Product Category: $category
-	<BR><BR> ");
-
-	if ($private) {
-	print("Product is invisible to the general public!");
-	}
-	print("
-	<BR><BR>
-
-	Timestamp: $timestamp
-	<BR><BR>
-	<BR><BR>
-
-	*You may now go ahead and add FAQs to the FAQ database for: $description
-	<BR><BR>
+	You may now go ahead and add FAQs to the FAQ database for: $description
 	<BR><BR>
 	
 	<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A>
@@ -72,11 +45,6 @@ switch ($command) {
 	
 		Product FAQ Introduction:<BR>
 		<TEXTAREA name=introduction rows=15 cols=55 wrap=virtual></TEXTAREA>
-	
-		<BR><BR>
-	
-		FAQ Version: (Ex.: v1.2, v0.1)<BR>
-		<INPUT TYPE=text NAME=version SIZE=5>
 	
 		<BR><BR>
 	
@@ -126,96 +94,37 @@ switch ($command) {
   case 'mod_prod':
 
 	if ($really=="yes") {
-		$timestamp = date("YmdHis");
-		modifyProduct($product_id, $product, $description, $introduction, $version, $timestamp, $private);
-		printHead("Product Modified");
-		print("You have successfully updated a product to the
-		FAQ database. Good for you!
-		<BR><BR>
+		$prod = getProductById($product_id);
+		if ($prod["timestamp"] > $timestamp)
+		{
+			$new["product"] = $product;
+			$new["description"] = $description;
+			$new["introduction"] = $introduction;
+			printHead("Error");
+			modifyProductForm($product_id,$new);
+			printTail();
+		} else {
+			modifyProduct($product_id, $product, $description, $introduction, $private);
+			printHead("Product Modified");
+			print("You have successfully updated a product to the
+			FAQ database. Good for you!<BR><BR>
 
-		Product Reference Name: $product
-		<BR><BR>
-
-		Product Description: $description
-		<BR><BR>
-
-		Product FAQ Introduction:<BR>
-		$introduction
-		<BR><BR>
-
-		Product Version: $version
-		<BR><BR>
-
-		Timestamp: $timestamp
-		<BR><BR>
-
-		Category: $category
-		<BR><BR>
-
-		Visibility Setting: $private
-		<BR><BR>
-		<BR><BR>
-
-		<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A>
-		<BR>
-		<A HREF=\"index.php3\">FAQ Index</A>");
-		printTail();
+			<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A>
+			<BR>
+			<A HREF=\"index.php3\">FAQ Index</A>");
+			printTail();
+		}
 
 		
 	} else {
 		if (!empty($product)) {
-			$row = getProduct($product);
-			$product = $row["product"];
-			$product_id = $row["product_id"];
-			$description = $row["description"];
-			$introduction = $row["introduction"];
-			$version = $row["version"];
-			$private = $row["private"];
-
-			$product = ereg_replace("\"","&quot;",$product);
-			$description = ereg_replace("\"","&quot;",$description);
-			$version = ereg_replace("\"","&quot;",$version);
-
+			$product_id = getProductId($product);
 		} else {
 			errorPage("Please specify a product");
 		}
-	printHead("Modify product $product");
-	print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">
-
-	Product Reference Name: (Ex.: SMAC, SoF, SC3K)<BR>
-	<INPUT TYPE=text NAME=product VALUE=\"$product\" SIZE=\"15\">
-
-	<BR><BR>
-
-	Product Description: (Ex.: Sid Meiers Alpha Centauri)<BR>
-	<INPUT TYPE=text NAME=description VALUE=\"$description\" SIZE=45>
-
-	<BR><BR>
-
-	Product FAQ Introduction:<BR>
-	<TEXTAREA NAME=introduction ROWS=15 COLS=55 WRAP=virtual>$introduction</TEXTAREA>
-
-	<BR><BR>
-
-	FAQ Version: (Ex.: v1.2, v0.1)<BR>
-	<INPUT TYPE=text NAME=version VALUE=\"$version\" SIZE=5>
-
-	<BR><BR>
-
-	FAQ visibility: (Ex.: 0 => visible, 1 => invisible)
-	<INPUT TYPE=text NAME=private VALUE=\"$private\" SIZE=3>
- 
-	<BR><BR>
-
-	<INPUT TYPE=hidden NAME=really VALUE=yes>
-	<INPUT TYPE=hidden NAME=product_id VALUE=$product_id>
-	<INPUT TYPE=hidden NAME=command VALUE=mod_prod>
-
-	<BR><BR>
-
-	<INPUT TYPE=submit VALUE=Update>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>
-	</FORM>
-	");
+		printHead("Modify product $product");
+		modifyProductForm($product_id,$new);
+		printTail();
 	}
 		
 
@@ -303,10 +212,19 @@ switch ($command) {
 		if (empty($new_cat_name) || empty($cat_id)) {
 			errorPage("Please fill in the fields");
 		} else {
-			modifyCat($cat_id,$new_cat_name);
-			printHead("Success");
-			print("You have successfully updated a product
-			category to the FAQ database. Good for you!
+			$cat = getCatById($cat_id);
+			$new_timestamp = $cat["timestamp"];
+			if ($new_timestamp > $timestamp)
+			{
+				$new["cat_name"]=$new_cat_name;
+				printHead("Error");
+				modifyCatForm($cat_id,$new);
+				printTail();
+			} else {
+				modifyCat($cat_id,$new_cat_name);
+				printHead("Success");
+				print("You have successfully updated a product
+				category to the FAQ database. Good for you!
 	<BR><BR>
 
 	Old Product Category Name: $old_cat_name
@@ -319,33 +237,13 @@ switch ($command) {
 
 	<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A><BR>
 	<A HREF=\"index.php3\">FAQ Index</A>");
-			printTail();
+				printTail();
+			}
 		}
 	} else {
 		$cat_id=getCatId($product,$cat_name);
-		$cat_name = ereg_replace("\"","&quot;",$cat_name);
-		printHead("Update / Modify Category Form");
-	print("Update / Modify Category Form");
-
-	print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">
-
-	<B>Old</B> Product Category Name: <B>$cat_name</B><BR><BR>
-	<INPUT TYPE=hidden NAME=old_cat_name VALUE=\"$cat_name\">
-
-	<B>New</B> Product Category Name: (Ex.: Installation, Introduction, Disp
-lay)<BR>
-	<INPUT TYPE=text NAME=new_cat_name SIZE=25>
-
-	<INPUT TYPE=hidden NAME=cat_id VALUE=\"$cat_id\">
-	<INPUT TYPE=hidden NAME=really VALUE=yes>
-	<INPUT TYPE=hidden NAME=product VALUE=\"$product\">
-	<INPUT TYPE=hidden NAME=command VALUE=mod_cat>
-
-	<BR><BR>
-
-	<INPUT TYPE=submit VALUE=Update>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>
-
-	");
+		printHead("Modify a Category");
+		modifyCatForm($cat_id,$new);
 		printTail();
 
 	}
@@ -414,9 +312,9 @@ ALUE=Clear>");
 	if($really=="yes") {
 		remFAQ($faq_id);
 		printHead("FAQ removed");
-		print("<H1>FAQ gone<H1>");
-	print("<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A><BR>");
-		print("<A HREF=\"index.php3\">Back to the index</A>");
+		print("<H1>FAQ gone<H1>
+	<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A><BR>
+		<A HREF=\"index.php3\">Back to the index</A>");
 		printTail();
 	} else {
 		printHead("Remove faq");
@@ -426,19 +324,21 @@ ALUE=Clear>");
 		$cat_name = getCatName($row["faq_cat"]);
 		$product = getProductName($row["faq_prod"]);
 		print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">
-		<H1>Product:  $product</H1><BR>
-		<H2>Category:  $cat_name</H2>
-		<H3>Question: $faq_question</H3>
-		<P>Answer: $faq_answer</P>
+		<H1>Remove a faq</H1>
+		<TABLE BORDER=\"0\">
+		<TR><TD>Product:</TD><TD>$product</TD></TR>
+		<TR><TD>Category:</TD><TD>$cat_name</TD></TR>
+		<TR><TD>Question:</TD><TD>$faq_question</TD></TR>
+		<TR><TD>Answer:</TD><TD>$faq_answer</TD></TR>
+		</TABLE>
 		
 		<INPUT TYPE=hidden NAME=really VALUE=yes>
 		<INPUT TYPE=hidden NAME=command VALUE=rem_faq>
 		<INPUT TYPE=hidden NAME=product VALUE=$product>
 		<INPUT TYPE=hidden NAME=faq_id VALUE=$faq_id>
 		<BR><BR>
-		If you REALLY REALLY REALLY wanna delete this FAQ, hit Yes<BR>
+		If you REALLY REALLY REALLY wanna delete this FAQ, hit Yes, otherwise hit back in your browser<BR>
 		<INPUT TYPE=submit VALUE=\"     Yes     \"><BR>
-		Otherwise, try going back <A HREF=\"./\">To the index</A>
 		");
 		printTail();
 	}
@@ -448,52 +348,33 @@ ALUE=Clear>");
   case 'mod_faq':
 
 	if($really=="yes") {
-		modifyFAQ($faq_id,$answer,$question,$new_cat_id);
-		printHead("FAQ Modified");
+		$faq = getFaq($faq_id);
+		$new_timestamp = $faq["timestamp"];
+		if ($new_timestamp > $timestamp)
+		{
+			printHead("Modify FAQ");
+			$new["faq_question"] = $question;
+			$new["faq_answer"] = $answer;
+			$new["faq_cat"] = $new_cat_id;
+			modifyFaqForm($faq_id,$new);
+			printTail();
+		} else {
+			modifyFAQ($faq_id,$answer,$question,$new_cat_id);
+			printHead("FAQ Modified");
 		$answer = insertMarkup(removeMarkup($answer));
-		print("<H1>The FAQ NOW reads:</H1>");
-		print("<H3>Question: $question</H3>");
-		print("<P>Answer: $answer</P><BR><BR>");
-	print("<A HREF=\"faq.php3?view=index&product=$product\">$product Index</A><BR>");
-		print("<A HREF=\"index.php3\">Back to the index</A>");
+		print("<H1>The FAQ NOW reads:</H1>
+			<TABLE BORDER=\"0\">
+			<TR><TD>Question:</TD><TD>$question</TD></TR>
+			<TR><TD>Answer:</TD><TD>$answer</TD></TR>
+			</TABLE>
+	<A HREF=\"faq.php3?view=index&product=$product\">
+		$product Index</A><BR>");
+		}
 	} else {
 		printHead("Modify FAQ");
-		$faq = getFaq($faq_id);
-		$current_cat = $faq["faq_cat"];
-		$current_question = $faq["faq_question"];
-		$current_answer = $faq["faq_answer"];
-
-		$allcats = getCategories($product);
-		print ("<H2>Current product: $product</H2>");
-		print("<FORM ACTION=\"./maintain.php3\" METHOD=\"post\">");
-		print ("<BR>New Category: <SELECT NAME=new_cat_id>");
-		while ($category = @mysql_fetch_array($allcats)) {
-			$cat_id = $category["cat_id"];
-			$cat_name = $category["cat_name"];
-			if ($cat_id == $current_cat) {
-				print("<OPTION SELECTED VALUE=$cat_id>$cat_name");
-			} else {
-				print("<OPTION VALUE=$cat_id>$cat_name");
-			}
-		}
-		print("</SELECT><BB><BR><BR>\n");
-		print("<INPUT TYPE=hidden NAME=really VALUE=yes>
-			<INPUT TYPE=hidden NAME=command VALUE=mod_faq>
-			<INPUT TYPE=hidden NAME=product VALUE=$product>
-			<INPUT TYPE=hidden NAME=faq_id VALUE=$faq_id>");
-
-		$current_question=ereg_replace("\"","&quot;",$current_question);
-		print("Question: (Ex.: Why doesn't my Linux game work in Windows??)<BR>
-	<INPUT TYPE=text NAME=question VALUE=\"$current_question\" SIZE=65>
-
-	<BR><BR>
-
-	FAQ Answer:<BR>
-	<TEXTAREA name=answer rows=20 cols=75 wrap=virtual>$current_answer</TEXTAREA>
-		<BR><BR>
-	<INPUT TYPE=submit VALUE=Modify>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=reset VALUE=Clear>");  
+		modifyFaqForm($faq_id,$new);
+		printTail();
 	}
-
   break;
 
   case 'move_cat':

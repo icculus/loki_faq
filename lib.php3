@@ -20,4 +20,10 @@ function insertMarkup($input_text)
 	return($input_text);
 }
 
+function characterMarkup($input_text)
+{
+	$input_text = ereg_replace("\"","&quot;",$input_text);
+	return($input_text);
+}
+
 ?>

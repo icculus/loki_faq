@@ -65,10 +65,10 @@ function do_sql ($SQL)
 }
 
 
-function insertProduct($product_name, $description, $introduction, $version, $private)
+function insertProduct($product_name, $description, $introduction, $private)
 {
-	$SQL = "INSERT INTO products (product, description, introduction, version, timestamp, private)";
-	$SQL .= " VALUES ('$product_name','$description','$introduction','$version','$timestamp','$private');";
+	$SQL = "INSERT INTO products (product, description, introduction, private)";
+	$SQL .= " VALUES ('$product_name','$description','$introduction','$private');";
 	$query = do_sql($SQL);
 }
 
@@ -124,10 +124,26 @@ function insertFAQ($product,$category,$question,$answer,$added_by)
 	
 }
 
+function getCatById($cat_id)
+{
+	$SQL = "SELECT * FROM categories WHERE cat_id='$cat_id';";
+	$query = do_sql($SQL);
+	$result = @mysql_fetch_array($query);
+	return($result);
+}
+
+function getProductById($prod_id)
+{
+	$SQL = "SELECT * FROM products WHERE product_id='$prod_id';";
+	$query = do_sql($SQL);
+	$result = @mysql_fetch_array($query);
+	return($result);
+}
+
 /* Used for getting into on one product */
 function getProduct($product)
 {
-	$SQL = "SELECT * FROM products WHERE product='$product' AND deleted='0';";
+	$SQL = "SELECT * FROM products WHERE product='$product';";
 	$query = do_sql($SQL);
 	$result = @mysql_fetch_array($query);
 	return($result);
@@ -231,11 +247,11 @@ function reallyRemProd($product_id)
 	if($prod["deleted"] == "0") {
 		errorPage("Please delete this product before attempting to permanantly remove it!");
 	}
+	$SQL = "DELETE FROM products WHERE product_id='$prod_id';";
+	do_sql($SQL);
 	$SQL = "DELETE FROM faqs WHERE faq_prod='$prod_id';";
 	do_sql($SQL);
 	$SQL = "DELETE FROM categories WHERE product_id='$prod_id';";
-	do_sql($SQL);
-	$SQL = "DELETE FROM products WHERE product_id='$prod_id';";
 	do_sql($SQL);
 }
 
@@ -314,9 +330,9 @@ function modifyFAQ($faq_id,$new_answer,$new_question,$new_cat_id)
 	do_sql($SQL);
 }
 
-function modifyProduct($product_id,$new_name,$new_description,$new_introduction,$new_version,$new_timestamp,$new_private)
+function modifyProduct($product_id,$new_name,$new_description,$new_introduction,$new_private)
 {
-	$SQL = "UPDATE products SET product='$new_name',description='$new_description',introduction='$new_introduction',version='$new_version',timestamp='$new_timestamp',private='$new_private' WHERE product_id='$product_id';";
+	$SQL = "UPDATE products SET product='$new_name',description='$new_description',introduction='$new_introduction',private='$new_private' WHERE product_id='$product_id';";
 	do_sql($SQL);
 }
 
