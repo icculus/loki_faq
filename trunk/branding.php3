@@ -7,7 +7,7 @@ function printHead($title)
 
 	print("<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">\n");
 	print("<META NAME=\"MSSmartTagsPreventParsing\" CONTENT=\"TRUE\">\n");
-	print("<LINK REL=\"stylesheet\" HREF=\"http://icculus.org/~chunky/includes/style.css\" TYPE=\"text/css\">\n");
+	print("<LINK REL=\"stylesheet\" HREF=\"/loki_faq/style.css\" TYPE=\"text/css\">\n");
 
 
 	print("<TITLE>$title</TITLE>\n");
@@ -52,15 +52,13 @@ function printProductHead($product)
 function printFAQ($product,$question,$answer,$faq_id)
 {
 	$answer = insertMarkup(removeMarkup($answer));
-	print("<B>Question</B>:<BR>\n");
+	print("<FONT CLASS=\"QA\">Question</FONT>:<BR>\n");
 	print("<A NAME=faq$faq_id>\n");
-	print("<A HREF=\"faq.php3?view=faq&faq_id=$faq_id&product=$product\">$question</A><BR><BR>\n");
-
-	print("<B>Answer</B>:<BR>\n");
-	print("$answer\n");
+	print("<FONT CLASS=\"FAQQuestion\"><A HREF=\"faq.php3?view=faq&faq_id=$faq_id&product=$product\">$question</A></FONT>\n");
 	print("<BR><BR>\n");
 
-
+	print("<FONT CLASS=\"QA\">Answer</FONT>:<BR>\n");
+	print("<FONT CLASS=\"FAQAnswer\">$answer</FONT>\n");
 }
 
 function lost()

@@ -1,0 +1,31 @@
+BODY {
+	font-family: Verdana, Nimbus Sans, Arial, sans-serif;
+	color: black;
+	background-color: #eeeeee;
+}
+
+A:visited {
+	color: #223386;
+}
+
+A:link {
+	color: #53a119;
+}
+
+FONT.CategoryName {
+	font-size: 170%;
+	font-weight: bold;
+}
+
+FONT.FAQQuestion {
+	font-size: 110%;
+}
+
+FONT.FAQAnswer {
+	font-size: 100%;
+}
+
+FONT.QA {
+	font-size: 90%;
+	font-weight: bold;
+}

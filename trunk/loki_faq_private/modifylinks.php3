@@ -14,7 +14,6 @@ function catModifyRemove($product,$cat_name)
 	| <A HREF=\"./maintain.php3?command=move_cat&direction=down&really=yes&cat_id=$cat_id\">Move Down</A>
 	]
 		</FONT>");
-	print("<BR>");
 }
 
 function faqModifyRemove($faq_id,$product,$cat_name)
@@ -30,14 +29,13 @@ function faqModifyRemove($faq_id,$product,$cat_name)
 	| <A HREF=\"./maintain.php3?command=move_faq&direction=down&really=yes&faq_id=$faq_id&category=$cat_name&product=$product\">Move Down</A>
 	]
 		</FONT>");
-	print("<BR>");
 }
 
 function catAdd($product)
 {
 	print ("<FONT SIZE=\"1\">
 	[
-	<A HREF=\"./maintain.php3?command=add_cat&product=$product\">Add Category</A>
+	<A HREF=\"./maintain.php3?command=add_cat&product=$product\">Add Category to this Product</A>
 	]
 		</FONT>");
 }
@@ -46,7 +44,7 @@ function faqAdd($product,$cat_name)
 {
 	print ("<FONT SIZE=\"1\">
 	[
-	<A HREF=\"./maintain.php3?command=add_faq&product=$product&category=$cat_name\">Add FAQ</A>
+	<A HREF=\"./maintain.php3?command=add_faq&product=$product&category=$cat_name\">Add FAQ to this Category</A>
 	]
 		</FONT>");
 }

@@ -7,7 +7,7 @@ $user="faqs";
 $pass = "faqs";
 /* $server="" Uses socket */
 $server = "";
-$db = "faqs_newschema";
+$db = "faqs";
 
 /* Persistent connection */
 $connection;
