@@ -70,7 +70,6 @@ switch ($view) {
 	/* $product = $row["product"]; */
 	$description = $row["description"];
 	$introduction = $row["introduction"];
-	$version = $row["version"];
 	$timestamp = $row["timestamp"];
 
 	$answer = getFaq($faq_id);
@@ -101,7 +100,6 @@ switch ($view) {
 	$product = $row["product"];
 	$description = $row["description"];
 	$introduction = $row["introduction"];
-	$version = $row["version"];
 	$timestamp = $row["timestamp"];
 
 	printHead("Category: $product");
