@@ -16,7 +16,7 @@ function indexProduct($product)
 		$cat_name = $all_cats["cat_name"];
 
 		/* Print Category number and name */
-		print("<B><FONT SIZE=\"6\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$cat_name\">$cat_name</A></FONT></B>");
+		print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$cat_name\">$cat_name</A></FONT>");
 
 		catModifyRemove($product,$cat_name);
 		print("<BR>\n");
@@ -34,7 +34,7 @@ function indexProduct($product)
 			$faq_id = $list_all["faq_id"];
 
 			/* print Question */
-	       		print("<LI><A HREF=\"faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A>\n");
+	       		print("<LI><FONT CLASS=\"FAQQuestion\"><A HREF=\"faq.php3?view=faq&product=$product&faq_id=$faq_id\">$faq_question</A></FONT>\n");
 			faqModifyRemove($faq_id, $product,$cat_name);
 			print("</LI>\n\n");
 		}
@@ -84,8 +84,9 @@ switch ($view) {
 	printHead("FAQ: $product");
 	printLinkHead($product);
 	printProductHead($product);
-	print("<H2><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></H2>\n");
+	print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></FONT><BR>\n");
 	printFAQ($product,$faq_question,$faq_answer,$faq_id);
+	print("<BR>");
 	faqModifyRemove($faq_id,$product,$faq_cat);
 
 	printTail();
@@ -106,10 +107,12 @@ switch ($view) {
 	printLinkHead($product);
 	printProductHead($product);
 	catAdd($product);
+	print("<BR><BR>");
 
 	$catRow = getIndexByCat($product, $faq_cat);
 
-	print("<H2><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></H2><OL>");
+	print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$faq_cat\">$faq_cat</A></FONT><BR>\n");
+	print("<OL>");
 
 	/* Use to list all questions */
 	while($answer = @mysql_fetch_array($catRow))
@@ -121,7 +124,7 @@ switch ($view) {
 		$faq_answer = $answer["faq_answer"];
 	
 
-		print("<LI><A HREF=\"faq.php3?view=faq&product=$product&faq_notes=$faq_notes&faq_id=$faq_id\">$faq_question</A><BR>\n");
+		print("<LI><FONT CLASS=\"FQAQuestion\"><A HREF=\"faq.php3?view=faq&product=$product&faq_notes=$faq_notes&faq_id=$faq_id\">$faq_question</A></FONT><BR>\n");
 		faqModifyRemove($faq_id,$product,$faq_cat);
 		print("</LI>\n\n");
 
@@ -146,7 +149,9 @@ switch ($view) {
 	
 		print("<LI>");
 		printFAQ($product,$faq_question,$faq_answer,$faq_id);
+		print("<BR>\n");
 		faqModifyRemove($faq_id,$product,$faq_cat);
+		print("<BR><BR>\n");
 		print("</LI>");
 
 	}
@@ -177,8 +182,9 @@ switch ($view) {
 		$cat_name = $all_cats["cat_name"];
 
 		/* Print Category number and name */
-		print("<H2><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$cat_name\">$cat_name</A></H2><OL>\n");
+		print("<FONT CLASS=\"CategoryName\"><A HREF=\"faq.php3?view=category&product=$product&faq_cat=$cat_name\">$cat_name</A></FONT>\n");
 		catModifyRemove($product,$cat_name);
+		print("<OL>\n");
 
 		$catIndex = getIndexByCat($product, $cat_name);
 
@@ -191,7 +197,9 @@ switch ($view) {
 			print("\n<LI>\n");
 
 			printFAQ($product,$faq_question,$faq_answer,$faq_id);
-			faqModifyRemove($faq_id, $product,$cat_name);
+			print("<BR>\n");
+			faqModifyRemove($faq_id,$product,$faq_cat);
+			print("<BR><BR>\n");
 			print("\n</LI>\n");
 		}
 
