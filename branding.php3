@@ -42,9 +42,9 @@ function printProductHead($product)
 	$introduction = insertMarkup(removeMarkup($introduction));
 
 	print("
-		<P><FONT FACE=\"Arial, Helvetica, sans-serif\" COLOR=\"#CCCCCC\" SIZE=\"-1\" CLASS=\"subhead\">$description FAQ</FONT>
-		<FONT CLASS=\"small\"><BR>Last Updated on: $timestamp</FONT>
-		<P>$introduction<P>");
+		<P CLASS=\"ProductDescription\">$description FAQ</FONT>
+		<!-- <FONT CLASS=\"small\"><BR>Last Updated on: $timestamp</FONT> -->
+		<P CLASS=\"ProductIntroduction\">$introduction</FONT>");
 	print("<HR>\n");
 
 }

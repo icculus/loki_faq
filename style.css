@@ -12,20 +12,40 @@ A:link {
 	color: #53a119;
 }
 
+/* Used for the category name in the listing */
 FONT.CategoryName {
 	font-size: 170%;
 	font-weight: bold;
 }
 
+/* FAQ Question */
 FONT.FAQQuestion {
 	font-size: 110%;
 }
 
+/* FAQ Answer */
 FONT.FAQAnswer {
 	font-size: 100%;
 }
 
+/* Used for "Question:" and "Answer:" */
 FONT.QA {
 	font-size: 90%;
 	font-weight: bold;
+}
+
+/* The "Add", "Remove", "Modify", etc, links */
+FONT.Modify {
+	font-size: 70%;
+}
+
+/* The "description" of the product */
+P.ProductDescription {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 80%;
+}
+
+/* The "introduction" to the product */
+P.ProductIntroduction {
+	font-color: black;
 }

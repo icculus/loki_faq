@@ -1,5 +1,10 @@
 <?php
 
+function productModifyRemove($product)
+{
+	/* noop-ed */
+}
+
 function catModifyRemove($product,$cat_name)
 {
 	/* noop-ed */
